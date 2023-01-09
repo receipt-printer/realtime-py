@@ -31,7 +31,7 @@ def ensure_connection(func: Callable[T_ParamSpec, T_Retval]):
 
 
 class Socket:
-    def __init__(self, url: str, auto_reconnect: bool = False, params: Dict[str, Any] = {}, hb_interval: int = 5) -> None:
+    def __init__(self, url: str, auto_reconnect: bool = False, kept_alive: bool = False params: Dict[str, Any] = {}, hb_interval: int = 5) -> None:
         """
         `Socket` is the abstraction for an actual socket connection that receives and 'reroutes' `Message` according to its `topic` and `event`.
         Socket-Channel has a 1-many relationship.
@@ -46,7 +46,7 @@ class Socket:
         self.params = params
         self.hb_interval = hb_interval
         self.ws_connection: websockets.client.WebSocketClientProtocol
-        self.kept_alive = False
+        self.kept_alive = kept_alive
         self.auto_reconnect = auto_reconnect
 
         self.channels = cast(defaultdict[str, List[Channel]], self.channels)
